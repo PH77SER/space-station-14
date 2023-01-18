@@ -1,0 +1,19 @@
+- type: entity
+  name: debug sabre
+  parent: BaseItem
+  id: DebugSabre
+  description: A ceremonial weapon belonging to the captain of the station.
+  components:
+  - type: Sharp
+  - type: Sprite
+    sprite: Objects\Weapons\Melee\debug.rsi
+    state: icon
+  - type: MeleeWeapon
+    attackRate: 3
+    damage:
+      types:
+        Slash: 50
+  - type: Item
+    size: 15
+    sprite: Objects\Weapons\Melee\debug.rsi
+  - type: Tag
