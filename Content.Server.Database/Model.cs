@@ -210,6 +210,7 @@ namespace Content.Server.Database
         public int Age { get; set; }
         public string Sex { get; set; } = null!;
         public string Gender { get; set; } = null!;
+        public int MoneyValue { get; set; }
         public string Species { get; set; } = null!;
         [Column(TypeName = "jsonb")] public JsonDocument? Markings { get; set; } = null!;
         public string HairName { get; set; } = null!;
@@ -220,7 +221,6 @@ namespace Content.Server.Database
         public string SkinColor { get; set; } = null!;
         public string Clothing { get; set; } = null!;
         public string Backpack { get; set; } = null!;
-        public int MoneyValue { get; set; }
         public List<Job> Jobs { get; } = new();
         public List<Antag> Antags { get; } = new();
         public List<Trait> Traits { get; } = new();
