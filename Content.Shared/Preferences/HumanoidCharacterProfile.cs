@@ -38,6 +38,7 @@ namespace Content.Shared.Preferences
             int age,
             Sex sex,
             Gender gender,
+            int moneyValue,
             HumanoidCharacterAppearance appearance,
             ClothingPreference clothing,
             BackpackPreference backpack,
@@ -52,6 +53,7 @@ namespace Content.Shared.Preferences
             Age = age;
             Sex = sex;
             Gender = gender;
+            MoneyValue = moneyValue;
             Appearance = appearance;
             Clothing = clothing;
             Backpack = backpack;
@@ -67,7 +69,7 @@ namespace Content.Shared.Preferences
             Dictionary<string, JobPriority> jobPriorities,
             List<string> antagPreferences,
             List<string> traitPreferences)
-            : this(other.Name, other.FlavorText, other.Species, other.Age, other.Sex, other.Gender, other.Appearance, other.Clothing, other.Backpack,
+            : this(other.Name, other.FlavorText, other.Species, other.Age, other.Sex, other.Gender, other.MoneyValue, other.Appearance, other.Clothing, other.Backpack,
                 jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences)
         {
         }
@@ -85,6 +87,7 @@ namespace Content.Shared.Preferences
             int age,
             Sex sex,
             Gender gender,
+            int moneyValue,
             HumanoidCharacterAppearance appearance,
             ClothingPreference clothing,
             BackpackPreference backpack,
@@ -92,7 +95,7 @@ namespace Content.Shared.Preferences
             PreferenceUnavailableMode preferenceUnavailable,
             IReadOnlyList<string> antagPreferences,
             IReadOnlyList<string> traitPreferences)
-            : this(name, flavortext, species, age, sex, gender, appearance, clothing, backpack, new Dictionary<string, JobPriority>(jobPriorities),
+            : this(name, flavortext, species, age, sex, gender, moneyValue, appearance, clothing, backpack, new Dictionary<string, JobPriority>(jobPriorities),
                 preferenceUnavailable, new List<string>(antagPreferences), new List<string>(traitPreferences))
         {
         }
@@ -111,6 +114,7 @@ namespace Content.Shared.Preferences
                 18,
                 Sex.Male,
                 Gender.Male,
+                0,
                 HumanoidCharacterAppearance.Default(),
                 ClothingPreference.Jumpsuit,
                 BackpackPreference.Backpack,
@@ -137,6 +141,7 @@ namespace Content.Shared.Preferences
                 18,
                 Sex.Male,
                 Gender.Male,
+                0,
                 HumanoidCharacterAppearance.DefaultWithSpecies(species),
                 ClothingPreference.Jumpsuit,
                 BackpackPreference.Backpack,
@@ -177,11 +182,12 @@ namespace Content.Shared.Preferences
                 age = random.Next(speciesPrototype.MinAge, speciesPrototype.OldAge); // people don't look and keep making 119 year old characters with zero rp, cap it at middle aged
             }
 
+            var moneyValue = 0;
             var gender = sex == Sex.Male ? Gender.Male : Gender.Female;
 
             var name = GetName(species, gender);
 
-            return new HumanoidCharacterProfile(name, "", species, age, sex, gender, HumanoidCharacterAppearance.Random(species, sex), ClothingPreference.Jumpsuit, BackpackPreference.Backpack,
+            return new HumanoidCharacterProfile(name, "", species, age, sex, gender, moneyValue, HumanoidCharacterAppearance.Random(species, sex), ClothingPreference.Jumpsuit, BackpackPreference.Backpack,
                 new Dictionary<string, JobPriority>
                 {
                     {SharedGameTicker.FallbackOverflowJob, JobPriority.High},
@@ -192,6 +198,8 @@ namespace Content.Shared.Preferences
         public string FlavorText { get; private set; }
         public string Species { get; private set; }
 
+        public int MoneyValue { get; private set; }
+
         [DataField("age")]
         public int Age { get; private set; }
 
@@ -200,6 +208,9 @@ namespace Content.Shared.Preferences
 
         [DataField("gender")]
         public Gender Gender { get; private set; }
+
+        //[DataField("money")]
+        // public MoneyValue MoneyValue {get; private set; }
 
         public ICharacterAppearance CharacterAppearance => Appearance;
 
@@ -237,6 +248,10 @@ namespace Content.Shared.Preferences
             return new(this) { Gender = gender };
         }
 
+        public HumanoidCharacterProfile WithMoneyValue(int moneyValue)
+        {
+            return new (this) { MoneyValue = moneyValue };
+        }
         public HumanoidCharacterProfile WithSpecies(string species)
         {
             return new(this) { Species = species };
@@ -342,6 +357,7 @@ namespace Content.Shared.Preferences
             if (Age != other.Age) return false;
             if (Sex != other.Sex) return false;
             if (Gender != other.Gender) return false;
+            if (MoneyValue != other.MoneyValue) return false;
             if (PreferenceUnavailable != other.PreferenceUnavailable) return false;
             if (Clothing != other.Clothing) return false;
             if (Backpack != other.Backpack) return false;

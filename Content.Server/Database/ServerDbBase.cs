@@ -198,6 +198,7 @@ namespace Content.Server.Database
                 profile.Age,
                 sex,
                 gender,
+                profile.MoneyValue,
                 new HumanoidCharacterAppearance
                 (
                     profile.HairName,
@@ -242,6 +243,7 @@ namespace Content.Server.Database
                 EyeColor = appearance.EyeColor.ToHex(),
                 SkinColor = appearance.SkinColor.ToHex(),
                 Clothing = humanoid.Clothing.ToString(),
+                MoneyValue = humanoid.MoneyValue,
                 Backpack = humanoid.Backpack.ToString(),
                 Markings = markings,
                 Slot = slot,
